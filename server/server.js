@@ -4,9 +4,14 @@
 * */
 
 var express = require('express');
+var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io').listen(server);
+
 var firebaseRequestHandler = require('./middleware/authFirebase');
 
-var app = express();
+app.set('port', process.env.PORT || 3000);
+app.use(express.static('public'));
 
 //static files will be served from the public directory
 app.use(function (req, res, next) {
@@ -16,10 +21,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(express.static('public'));
-
-//server is listening on port 3000
-var server = app.listen(3000, function () {
-	var port = server.address().port;
-	console.log('Smart Shopping listening at http://localhost:%s', port);
-});
+server.listen(app.get('port'), function() {
+  console.log('Express server with socket.io intiated')
+})
