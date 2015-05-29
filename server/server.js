@@ -3,12 +3,12 @@
 * TODO: add routing
 * */
 
-var express = require('express');
+var app = require('express')();
+var server = require('http').Server(app);
+var io = require('socket.io')('server');
+var port = env.process.env.PORT || 3000;
 
-var app = express();
 
-var server = app.listen(3000, function () {
-	var port = server.address().port;
-	console.log('Smart Shopping listening at http://localhost:%s', port);
+server.listen(port, function() {
+  console.log('Smart Shopping listening at http://localhost:', port);
 });
-
